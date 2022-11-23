@@ -148,12 +148,15 @@ exports.verifyPayment = async (req, res) => {
 		if (result.status == '200' && result.data.status == "success") {
 			let vote = await Vote.findOne({ trans_ref: trxref });
 			let contestant = await Contestant.findOne({ ref_no: vote.contestant_id });
+			let user = await User.findOne({ _id: vote.user_id });
 
 			contestant.totalVotes += vote.vote_no
+			user.totalVotes += vote.vote_no
 
 			vote.trans_complete = true;
 
 			await vote.save();
+			await user.save();
 			await contestant.save();
 
 			req.session.message = {
