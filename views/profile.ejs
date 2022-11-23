@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta tags  -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+    <title>Anambra Talent Show</title>
+    <link rel="icon" type="image/png" href="/ats/images/favicon.png">
+
+    <!-- CSS Assets -->
+    <link rel="stylesheet" href="/ats/css/app.css">
+
+    <!-- Javascript Assets -->
+    <script src="/ats/js/app.js" defer=""></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="css2?family=Inter:wght@400;500;600;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+  </head>
+
+  <body x-data="" class="is-header-blur" x-bind="$store.global.documentBody">
+    <!-- App preloader-->
+    <div class="app-preloader fixed z-50 grid h-full w-full place-content-center bg-slate-50 dark:bg-navy-900">
+      <div class="app-preloader-inner relative inline-block h-48 w-48"></div>
+    </div>
+
+    <!-- Page Wrapper -->
+    <div id="root" class="min-h-100vh flex grow bg-slate-50 dark:bg-navy-900" x-cloak="">
+      <!-- Sidebar -->
+      <%- include("partials/sidebar") %>
+
+      <!-- App Header Wrapper-->
+      <nav class="header print:hidden">
+        <!-- App Header  -->
+        <div class="header-container relative flex w-full bg-white dark:bg-navy-750 print:hidden">
+          <!-- Header Items -->
+          <div class="flex w-full items-center justify-between">
+            <!-- Left: Sidebar Toggle Button -->
+            <div class="h-7 w-7">
+              <button class="menu-toggle ml-0.5 flex h-7 w-7 flex-col justify-center space-y-1.5 text-primary outline-none focus:outline-none dark:text-accent-light/80" :class="$store.global.isSidebarExpanded && 'active'" @click="$store.global.isSidebarExpanded = !$store.global.isSidebarExpanded">
+                <span></span>
+                <span></span>
+                <span></span>
+              </button>
+            </div>
+
+            <!-- Right: Header buttons -->
+            <div class="-mr-1.5 flex items-center space-x-2">
+
+              <!-- Dark Mode Toggle -->
+              <button @click="$store.global.isDarkModeEnabled = !$store.global.isDarkModeEnabled" class="btn h-8 w-8 rounded-full p-0 hover:bg-slate-300/20 focus:bg-slate-300/20 active:bg-slate-300/25 dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25">
+                <svg x-show="$store.global.isDarkModeEnabled" x-transition:enter="transition-transform duration-200 ease-out absolute origin-top" x-transition:enter-start="scale-75" x-transition:enter-end="scale-100 static" class="h-6 w-6 text-amber-400" fill="currentColor" viewbox="0 0 24 24">
+                  <path d="M11.75 3.412a.818.818 0 01-.07.917 6.332 6.332 0 00-1.4 3.971c0 3.564 2.98 6.494 6.706 6.494a6.86 6.86 0 002.856-.617.818.818 0 011.1 1.047C19.593 18.614 16.218 21 12.283 21 7.18 21 3 16.973 3 11.956c0-4.563 3.46-8.31 7.925-8.948a.818.818 0 01.826.404z"></path>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" x-show="!$store.global.isDarkModeEnabled" x-transition:enter="transition-transform duration-200 ease-out absolute origin-top" x-transition:enter-start="scale-75" x-transition:enter-end="scale-100 static" class="h-6 w-6 text-amber-400" viewbox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                </svg>
+              </button>
+
+              <!-- Notification-->
+              <div x-effect="if($store.global.isSearchbarActive) isShowPopper = false" x-data="usePopper({placement:'bottom-end',offset:12})" @click.outside="if(isShowPopper) isShowPopper = false" class="flex">
+                <button @click="isShowPopper = !isShowPopper" x-ref="popperRef" class="btn relative h-8 w-8 rounded-full p-0 hover:bg-slate-300/20 focus:bg-slate-300/20 active:bg-slate-300/25 dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-500 dark:text-navy-100" stroke="currentColor" fill="none" viewbox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.375 17.556h-6.75m6.75 0H21l-1.58-1.562a2.254 2.254 0 01-.67-1.596v-3.51a6.612 6.612 0 00-1.238-3.85 6.744 6.744 0 00-3.262-2.437v-.379c0-.59-.237-1.154-.659-1.571A2.265 2.265 0 0012 2c-.597 0-1.169.234-1.591.65a2.208 2.208 0 00-.659 1.572v.38c-2.621.915-4.5 3.385-4.5 6.287v3.51c0 .598-.24 1.172-.67 1.595L3 17.556h12.375zm0 0v1.11c0 .885-.356 1.733-.989 2.358A3.397 3.397 0 0112 22a3.397 3.397 0 01-2.386-.976 3.313 3.313 0 01-.989-2.357v-1.111h6.75z"></path>
+                  </svg>
+
+                  <span class="absolute -top-px -right-px flex h-3 w-3 items-center justify-center">
+                    <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-secondary opacity-80"></span>
+                    <span class="inline-flex h-2 w-2 rounded-full bg-secondary"></span>
+                  </span>
+                </button>
+                <div :class="isShowPopper && 'show'" class="popper-root" x-ref="popperRoot">
+                  <div x-data="{activeTab:'tabAll'}" class="popper-box mx-4 mt-1 flex max-h-[calc(100vh-6rem)] w-[calc(100vw-2rem)] flex-col rounded-lg border border-slate-150 bg-white shadow-soft dark:border-navy-800 dark:bg-navy-700 dark:shadow-soft-dark sm:m-0 sm:w-80">
+                    <div class="rounded-t-lg bg-slate-100 text-slate-600 dark:bg-navy-800 dark:text-navy-200">
+                      <div class="flex items-center justify-between px-4 pt-2">
+                        <div class="flex items-center space-x-2">
+                          <h3 class="font-medium text-slate-700 dark:text-navy-100">
+                            Notifications
+                          </h3>
+                          <div class="badge h-5 rounded-full bg-primary/10 px-1.5 text-primary dark:bg-accent-light/15 dark:text-accent-light">
+                            1
+                          </div>
+                        </div>
+
+                        <button class="btn -mr-1.5 h-7 w-7 rounded-full p-0 hover:bg-slate-300/20 focus:bg-slate-300/20 active:bg-slate-300/25 dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                          </svg>
+                        </button>
+                      </div>
+
+                      <div class="is-scrollbar-hidden flex shrink-0 overflow-x-auto px-3">
+                        <button @click="activeTab = 'tabAll'" :class="activeTab === 'tabAll' ? 'border-primary dark:border-accent text-primary dark:text-accent-light' : 'border-transparent hover:text-slate-800 focus:text-slate-800 dark:hover:text-navy-100 dark:focus:text-navy-100'" class="btn shrink-0 rounded-none border-b-2 px-3.5 py-2.5">
+                          <span>All</span>
+
+                      </div>
+                    </div>
+
+                    <div class="tab-content flex flex-col overflow-hidden">
+                      <div x-show="activeTab === 'tabAll'" x-transition:enter="transition-all duration-300 easy-in-out" x-transition:enter-start="opacity-0 [transform:translate3d(1rem,0,0)]" x-transition:enter-end="opacity-100 [transform:translate3d(0,0,0)]" class="is-scrollbar-hidden space-y-4 overflow-y-auto px-4 py-4">
+                        <!-- <div class="mt-8 pb-8 text-center">
+                          <img class="mx-auto w-36" src="/ats/images/illustrations/empty-girl-box.svg" alt="image">
+                          <div class="mt-5">
+                            <p class="text-base font-semibold text-slate-700 dark:text-navy-100">
+                              No any logs
+                            </p>
+                            <p class="text-slate-400 dark:text-navy-300">
+                              There are no unread logs yet
+                            </p>
+                          </div>
+                        </div> -->
+                        <div class="flex items-center space-x-3">
+                          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary/10 dark:bg-secondary-light/15">
+                            <i class="fa fa-thumbs-up text-secondary dark:text-secondary-light" aria-hidden="true"></i>
+                          </div>
+                          <!-- <div>
+                            <p class="font-medium text-slate-600 dark:text-navy-100">
+                              You voted for Jonathan
+                            </p>
+                            <div class="mt-1 text-xs text-slate-400 line-clamp-1 dark:text-navy-300">
+                              +500
+                            </div>
+                          </div> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+
+      <!-- Main Content Wrapper -->
+      <main class="main-content w-full pb-8">
+        <div class="mt-4 grid grid-cols-12 gap-4 px-[var(--margin-x)] transition-all duration-[.25s] sm:mt-5 sm:gap-5 lg:mt-6 lg:gap-6">
+          
+          <div class="card col-span-12 lg:col-span-8 mt-4">
+            <div class="flex items-center justify-between py-3 px-4">
+              <h2 class="font-medium tracking-wide text-slate-700 dark:text-navy-100">
+                Overview
+              </h2>
+              <div x-data="usePopper({placement:'bottom-end',offset:4})" @click.outside="if(isShowPopper) isShowPopper = false" class="inline-flex">
+                <button x-ref="popperRef" @click="isShowPopper = !isShowPopper" class="btn h-8 w-8 rounded-full p-0 hover:bg-slate-300/20 focus:bg-slate-300/20 active:bg-slate-300/25 dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
+                  </svg>
+                </button>
+
+              </div>
+            </div>
+            <div class="grid grid-cols-1 gap-y-4 pb-3 sm:grid-cols-3">
+              <div class="flex flex-col justify-between border-4 border-transparent border-l-info px-4">
+                <div>
+                  <p class="text-base font-medium text-slate-600 dark:text-navy-100">
+                    My Total Votes
+                  </p>
+                  <div class="badge mt-2 bg-info/10 text-info dark:bg-info/15">
+                    <%= contestantsCount %> Contestants
+                  </div>
+                </div>
+                <div>
+                  <div class="mt-8">
+                    <p class="font-inter">
+                      <span class="text-2xl font-medium text-slate-600 dark:text-navy-100"><%= user.totalVotes %></span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        <div class="card px-4 pb-4 sm:px-5" style="--tw-shadow: 0 3px 10px 0 rgba(255, 255, 255, 0);
+        --tw-shadow-colored: 0 3px 10px 0 var(--tw-shadow-color);
+        background-color: rgba(255, 255, 255, 0);">
+          <div>
+            <div class="inline-space mt-5 flex flex-wrap">
+              <a href="/contestants">
+                <button class="btn bg-primary font-medium text-white hover:bg-primary-focus focus:bg-primary-focus active:bg-primary-focus/90 dark:bg-accent dark:hover:bg-accent-focus dark:focus:bg-accent-focus dark:active:bg-accent/90">
+                  Vote Now
+                </button>
+              </a>
+              <a href="/judges">
+                <button class="btn bg-slate-150 font-medium text-slate-800 hover:bg-slate-200 focus:bg-slate-200 active:bg-slate-200/80 dark:bg-navy-500 dark:text-navy-50 dark:hover:bg-navy-450 dark:focus:bg-navy-450 dark:active:bg-navy-450/90">
+                  View Judges
+                </button>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mt-16 grid grid-cols-12 gap-4 bg-slate-150 py-5 dark:bg-navy-800 sm:mt-5 sm:gap-5 lg:mt-6 lg:gap-6">
+          <div class="col-span-12 flex flex-col px-[var(--margin-x)] transition-all duration-[.25s] lg:col-span-3 lg:pr-0">
+            <h2 class="text-base font-medium tracking-wide text-slate-700 line-clamp-1 dark:text-navy-100 lg:text-xl">
+              ANAMBRA TALENT SHOW (Season 2)
+            </h2>
+
+            <p class="mt-3 grow">
+              Vote for your favourite contestant in the biggest Talent Show in South East Nigeria.
+            </p>
+          </div>
+          <div class="is-scrollbar-hidden col-span-12 flex space-x-4 overflow-x-auto px-[var(--margin-x)] transition-all duration-[.25s] lg:col-span-9 lg:pl-0">
+            <div class="card w-72 shrink-0 space-y-9 rounded-xl p-4 sm:px-5">
+              <div class="flex items-center justify-between space-x-2">
+                <div class="flex items-center space-x-3">
+                  <div class="avatar">
+                    <img class="mask is-squircle" src="/ats/images/1bob.jpg" alt="image">
+                  </div>
+                  <div>
+                    <p class="font-medium text-slate-700 line-clamp-1 dark:text-navy-100">
+                      Bob-Manuel Odokwu
+                    </p>
+                    <p class="text-xs text-slate-400 dark:text-navy-300">
+                      Host
+                    </p>
+                  </div>
+                </div>
+                <div class="flex space-x-2">
+                  <div class="relative cursor-pointer">
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="flex justify-between space-x-2">
+                
+                <iframe width="100%" height="auto" src="https://www.youtube.com/embed/9hyFijiJhiU" title="ABOUT ANAMBRA TALENT SHOW BY THE HOST (BOB-MANUEL UDOKWU)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+              <div class="flex justify-between space-x-2">
+                <div>
+                  <p class="text-xs+">Award Winning Nollywood Actor</p>
+                </div>
+              </div>
+              <div class="grow">
+                <div class="flex w-full space-x-1">
+                  <div x-tooltip="'Host'" class="h-2 w-4/12 rounded-full bg-primary dark:bg-accent" style="width: 100%;}"></div>
+                </div>
+              </div>
+            </div>
+            <div class="card w-72 shrink-0 space-y-9 rounded-xl p-4 sm:px-5">
+              <div class="flex items-center justify-between space-x-2">
+                <div class="flex items-center space-x-3">
+                  <div class="avatar">
+                    <img class="mask is-squircle" src="/ats/images/bob.jpg" alt="image">
+                  </div>
+                  <div>
+                    <p class="font-medium text-slate-700 line-clamp-1 dark:text-navy-100">
+                      Bob-Manuel Odokwu
+                    </p>
+                    <p class="text-xs text-slate-400 dark:text-navy-300">
+                      Host
+                    </p>
+                  </div>
+                </div>
+                <div class="flex space-x-2">
+                  <div class="relative cursor-pointer">
+                    <a href="https://www.instagram.com/bobmanueludokwuofficial/">
+                    <button class="btn h-7 w-7 bg-primary/10 p-0 text-primary hover:bg-primary/20 focus:bg-primary/20 active:bg-primary/25 dark:bg-accent-light/10 dark:text-accent-light dark:hover:bg-accent-light/20 dark:focus:bg-accent-light/20 dark:active:bg-accent-light/25">
+                      <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                      </svg> -->
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#4f46e5"><path d="M16.98 0a6.9 6.9 0 0 1 5.08 1.98A6.94 6.94 0 0 1 24 7.02v9.96c0 2.08-.68 3.87-1.98 5.13A7.14 7.14 0 0 1 16.94 24H7.06a7.06 7.06 0 0 1-5.03-1.89A6.96 6.96 0 0 1 0 16.94V7.02C0 2.8 2.8 0 7.02 0h9.96zm.05 2.23H7.06c-1.45 0-2.7.43-3.53 1.25a4.82 4.82 0 0 0-1.3 3.54v9.92c0 1.5.43 2.7 1.3 3.58a5 5 0 0 0 3.53 1.25h9.88a5 5 0 0 0 3.53-1.25 4.73 4.73 0 0 0 1.4-3.54V7.02a5 5 0 0 0-1.3-3.49 4.82 4.82 0 0 0-3.54-1.3zM12 5.76c3.39 0 6.2 2.8 6.2 6.2a6.2 6.2 0 0 1-12.4 0 6.2 6.2 0 0 1 6.2-6.2zm0 2.22a3.99 3.99 0 0 0-3.97 3.97A3.99 3.99 0 0 0 12 15.92a3.99 3.99 0 0 0 3.97-3.97A3.99 3.99 0 0 0 12 7.98zm6.44-3.77a1.4 1.4 0 1 1 0 2.8 1.4 1.4 0 0 1 0-2.8z"/></svg>
+                    </button>
+                  </a>
+                    <!-- <div class="absolute top-0 right-0 -m-1 flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-primary px-1 text-tiny font-medium leading-none text-white dark:bg-accent">
+                      4
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+              <div class="flex justify-between space-x-2">
+                
+                <iframe width="100%" height="auto" src="https://www.youtube.com/embed/9hyFijiJhiU" title="ABOUT ANAMBRA TALENT SHOW BY THE HOST (BOB-MANUEL UDOKWU)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <!-- <iframe width="100%" height="auto" src="https://www.youtube.com/embed/FWSuOQ6Q1vE" title="ANAMBRA TALENT SHOW (Season 2)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+              </div>
+              <div class="flex justify-between space-x-2">
+                <div>
+                  <p class="text-xs+">Award Winning Nollywood Actor</p>
+                  <!-- <p class="text-xl font-semibold text-slate-700 dark:text-navy-100">
+                    Award Winning Nollywood Actor
+                  </p> -->
+                </div>
+              </div>
+              <div class="grow">
+                <div class="flex w-full space-x-1">
+                  <div x-tooltip="'Host'" class="h-2 w-4/12 rounded-full bg-primary dark:bg-accent" style="width: 100%;}"></div>
+                  <!-- <div x-tooltip="'Chats Messages'" class="h-2 w-3/12 rounded-full bg-success"></div>
+                  <div x-tooltip="'Emails'" class="h-2 w-5/12 rounded-full bg-info"></div> -->
+                </div>
+              </div>
+
+              
+              <div class="flex justify-between">
+                <div class="flex space-x-2">
+                  <img x-tooltip="'Award Level 1'" class="h-6 w-6" src="/ats/images/awards/award-19.svg" alt="avatar">
+                  <img x-tooltip="'Award Level 2'" class="h-6 w-6" src="/ats/images/awards/award-2.svg" alt="avatar">
+                  <img x-tooltip="'Award Level 3'" class="h-6 w-6" src="/ats/images/awards/award-5.svg" alt="avatar">
+                </div>
+              </div>
+            </div>
+            <div class="card w-72 shrink-0 space-y-9 rounded-xl p-4 sm:px-5">
+              <div class="flex items-center justify-between space-x-2">
+                <div class="flex items-center space-x-3">
+                  <div class="avatar">
+                    <img class="mask is-squircle" src="/ats/images/bob.jpg" alt="image">
+                  </div>
+                  <div>
+                    <p class="font-medium text-slate-700 line-clamp-1 dark:text-navy-100">
+                      Bob-Manuel Odokwu
+                    </p>
+                    <p class="text-xs text-slate-400 dark:text-navy-300">
+                      Host
+                    </p>
+                  </div>
+                </div>
+                <div class="flex space-x-2">
+                  <div class="relative cursor-pointer">
+                    <a href="https://www.instagram.com/bobmanueludokwuofficial/">
+                    <button class="btn h-7 w-7 bg-primary/10 p-0 text-primary hover:bg-primary/20 focus:bg-primary/20 active:bg-primary/25 dark:bg-accent-light/10 dark:text-accent-light dark:hover:bg-accent-light/20 dark:focus:bg-accent-light/20 dark:active:bg-accent-light/25">
+                      <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                      </svg> -->
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#4f46e5"><path d="M16.98 0a6.9 6.9 0 0 1 5.08 1.98A6.94 6.94 0 0 1 24 7.02v9.96c0 2.08-.68 3.87-1.98 5.13A7.14 7.14 0 0 1 16.94 24H7.06a7.06 7.06 0 0 1-5.03-1.89A6.96 6.96 0 0 1 0 16.94V7.02C0 2.8 2.8 0 7.02 0h9.96zm.05 2.23H7.06c-1.45 0-2.7.43-3.53 1.25a4.82 4.82 0 0 0-1.3 3.54v9.92c0 1.5.43 2.7 1.3 3.58a5 5 0 0 0 3.53 1.25h9.88a5 5 0 0 0 3.53-1.25 4.73 4.73 0 0 0 1.4-3.54V7.02a5 5 0 0 0-1.3-3.49 4.82 4.82 0 0 0-3.54-1.3zM12 5.76c3.39 0 6.2 2.8 6.2 6.2a6.2 6.2 0 0 1-12.4 0 6.2 6.2 0 0 1 6.2-6.2zm0 2.22a3.99 3.99 0 0 0-3.97 3.97A3.99 3.99 0 0 0 12 15.92a3.99 3.99 0 0 0 3.97-3.97A3.99 3.99 0 0 0 12 7.98zm6.44-3.77a1.4 1.4 0 1 1 0 2.8 1.4 1.4 0 0 1 0-2.8z"/></svg>
+                    </button>
+                  </a>
+                    <!-- <div class="absolute top-0 right-0 -m-1 flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-primary px-1 text-tiny font-medium leading-none text-white dark:bg-accent">
+                      4
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+              <div class="flex justify-between space-x-2">
+                
+                <iframe width="100%" height="auto" src="https://www.youtube.com/embed/9hyFijiJhiU" title="ABOUT ANAMBRA TALENT SHOW BY THE HOST (BOB-MANUEL UDOKWU)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <!-- <iframe width="100%" height="auto" src="https://www.youtube.com/embed/FWSuOQ6Q1vE" title="ANAMBRA TALENT SHOW (Season 2)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+              </div>
+              <div class="flex justify-between space-x-2">
+                <div>
+                  <p class="text-xs+">Award Winning Nollywood Actor</p>
+                  <!-- <p class="text-xl font-semibold text-slate-700 dark:text-navy-100">
+                    Award Winning Nollywood Actor
+                  </p> -->
+                </div>
+              </div>
+              <div class="grow">
+                <div class="flex w-full space-x-1">
+                  <div x-tooltip="'Host'" class="h-2 w-4/12 rounded-full bg-primary dark:bg-accent" style="width: 100%;}"></div>
+                  <!-- <div x-tooltip="'Chats Messages'" class="h-2 w-3/12 rounded-full bg-success"></div>
+                  <div x-tooltip="'Emails'" class="h-2 w-5/12 rounded-full bg-info"></div> -->
+                </div>
+              </div>
+
+              
+              <div class="flex justify-between">
+                <div class="flex space-x-2">
+                  <img x-tooltip="'Award Level 1'" class="h-6 w-6" src="/ats/images/awards/award-19.svg" alt="avatar">
+                  <img x-tooltip="'Award Level 2'" class="h-6 w-6" src="/ats/images/awards/award-2.svg" alt="avatar">
+                  <img x-tooltip="'Award Level 3'" class="h-6 w-6" src="/ats/images/awards/award-5.svg" alt="avatar">
+                </div>
+              </div>
+            </div>
+            <div class="card w-72 shrink-0 space-y-9 rounded-xl p-4 sm:px-5">
+              <div class="flex items-center justify-between space-x-2">
+                <div class="flex items-center space-x-3">
+                  <div class="avatar">
+                    <img class="mask is-squircle" src="/ats/images/bob.jpg" alt="image">
+                  </div>
+                  <div>
+                    <p class="font-medium text-slate-700 line-clamp-1 dark:text-navy-100">
+                      Bob-Manuel Odokwu
+                    </p>
+                    <p class="text-xs text-slate-400 dark:text-navy-300">
+                      Host
+                    </p>
+                  </div>
+                </div>
+                <div class="flex space-x-2">
+                  <div class="relative cursor-pointer">
+                    <a href="https://www.instagram.com/bobmanueludokwuofficial/">
+                    <button class="btn h-7 w-7 bg-primary/10 p-0 text-primary hover:bg-primary/20 focus:bg-primary/20 active:bg-primary/25 dark:bg-accent-light/10 dark:text-accent-light dark:hover:bg-accent-light/20 dark:focus:bg-accent-light/20 dark:active:bg-accent-light/25">
+                      <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                      </svg> -->
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#4f46e5"><path d="M16.98 0a6.9 6.9 0 0 1 5.08 1.98A6.94 6.94 0 0 1 24 7.02v9.96c0 2.08-.68 3.87-1.98 5.13A7.14 7.14 0 0 1 16.94 24H7.06a7.06 7.06 0 0 1-5.03-1.89A6.96 6.96 0 0 1 0 16.94V7.02C0 2.8 2.8 0 7.02 0h9.96zm.05 2.23H7.06c-1.45 0-2.7.43-3.53 1.25a4.82 4.82 0 0 0-1.3 3.54v9.92c0 1.5.43 2.7 1.3 3.58a5 5 0 0 0 3.53 1.25h9.88a5 5 0 0 0 3.53-1.25 4.73 4.73 0 0 0 1.4-3.54V7.02a5 5 0 0 0-1.3-3.49 4.82 4.82 0 0 0-3.54-1.3zM12 5.76c3.39 0 6.2 2.8 6.2 6.2a6.2 6.2 0 0 1-12.4 0 6.2 6.2 0 0 1 6.2-6.2zm0 2.22a3.99 3.99 0 0 0-3.97 3.97A3.99 3.99 0 0 0 12 15.92a3.99 3.99 0 0 0 3.97-3.97A3.99 3.99 0 0 0 12 7.98zm6.44-3.77a1.4 1.4 0 1 1 0 2.8 1.4 1.4 0 0 1 0-2.8z"/></svg>
+                    </button>
+                  </a>
+                    <!-- <div class="absolute top-0 right-0 -m-1 flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-primary px-1 text-tiny font-medium leading-none text-white dark:bg-accent">
+                      4
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+              <div class="flex justify-between space-x-2">
+                
+                <iframe width="100%" height="auto" src="https://www.youtube.com/embed/9hyFijiJhiU" title="ABOUT ANAMBRA TALENT SHOW BY THE HOST (BOB-MANUEL UDOKWU)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <!-- <iframe width="100%" height="auto" src="https://www.youtube.com/embed/FWSuOQ6Q1vE" title="ANAMBRA TALENT SHOW (Season 2)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+              </div>
+              <div class="flex justify-between space-x-2">
+                <div>
+                  <p class="text-xs+">Award Winning Nollywood Actor</p>
+                  <!-- <p class="text-xl font-semibold text-slate-700 dark:text-navy-100">
+                    Award Winning Nollywood Actor
+                  </p> -->
+                </div>
+              </div>
+              <div class="grow">
+                <div class="flex w-full space-x-1">
+                  <div x-tooltip="'Host'" class="h-2 w-4/12 rounded-full bg-primary dark:bg-accent" style="width: 100%;}"></div>
+                  <!-- <div x-tooltip="'Chats Messages'" class="h-2 w-3/12 rounded-full bg-success"></div>
+                  <div x-tooltip="'Emails'" class="h-2 w-5/12 rounded-full bg-info"></div> -->
+                </div>
+              </div>
+
+              
+              <div class="flex justify-between">
+                <div class="flex space-x-2">
+                  <img x-tooltip="'Award Level 1'" class="h-6 w-6" src="/ats/images/awards/award-19.svg" alt="avatar">
+                  <img x-tooltip="'Award Level 2'" class="h-6 w-6" src="/ats/images/awards/award-2.svg" alt="avatar">
+                  <img x-tooltip="'Award Level 3'" class="h-6 w-6" src="/ats/images/awards/award-5.svg" alt="avatar">
+                </div>
+              </div>
+            </div>
+            <div class="card w-72 shrink-0 space-y-9 rounded-xl p-4 sm:px-5">
+              <div class="flex items-center justify-between space-x-2">
+                <div class="flex items-center space-x-3">
+                  <div class="avatar">
+                    <img class="mask is-squircle" src="/ats/images/bob.jpg" alt="image">
+                  </div>
+                  <div>
+                    <p class="font-medium text-slate-700 line-clamp-1 dark:text-navy-100">
+                      Bob-Manuel Odokwu
+                    </p>
+                    <p class="text-xs text-slate-400 dark:text-navy-300">
+                      Host
+                    </p>
+                  </div>
+                </div>
+                <div class="flex space-x-2">
+                  <div class="relative cursor-pointer">
+                    <a href="https://www.instagram.com/bobmanueludokwuofficial/">
+                    <button class="btn h-7 w-7 bg-primary/10 p-0 text-primary hover:bg-primary/20 focus:bg-primary/20 active:bg-primary/25 dark:bg-accent-light/10 dark:text-accent-light dark:hover:bg-accent-light/20 dark:focus:bg-accent-light/20 dark:active:bg-accent-light/25">
+                      <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                      </svg> -->
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#4f46e5"><path d="M16.98 0a6.9 6.9 0 0 1 5.08 1.98A6.94 6.94 0 0 1 24 7.02v9.96c0 2.08-.68 3.87-1.98 5.13A7.14 7.14 0 0 1 16.94 24H7.06a7.06 7.06 0 0 1-5.03-1.89A6.96 6.96 0 0 1 0 16.94V7.02C0 2.8 2.8 0 7.02 0h9.96zm.05 2.23H7.06c-1.45 0-2.7.43-3.53 1.25a4.82 4.82 0 0 0-1.3 3.54v9.92c0 1.5.43 2.7 1.3 3.58a5 5 0 0 0 3.53 1.25h9.88a5 5 0 0 0 3.53-1.25 4.73 4.73 0 0 0 1.4-3.54V7.02a5 5 0 0 0-1.3-3.49 4.82 4.82 0 0 0-3.54-1.3zM12 5.76c3.39 0 6.2 2.8 6.2 6.2a6.2 6.2 0 0 1-12.4 0 6.2 6.2 0 0 1 6.2-6.2zm0 2.22a3.99 3.99 0 0 0-3.97 3.97A3.99 3.99 0 0 0 12 15.92a3.99 3.99 0 0 0 3.97-3.97A3.99 3.99 0 0 0 12 7.98zm6.44-3.77a1.4 1.4 0 1 1 0 2.8 1.4 1.4 0 0 1 0-2.8z"/></svg>
+                    </button>
+                  </a>
+                    <!-- <div class="absolute top-0 right-0 -m-1 flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-primary px-1 text-tiny font-medium leading-none text-white dark:bg-accent">
+                      4
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+              <div class="flex justify-between space-x-2">
+                
+                <iframe width="100%" height="auto" src="https://www.youtube.com/embed/9hyFijiJhiU" title="ABOUT ANAMBRA TALENT SHOW BY THE HOST (BOB-MANUEL UDOKWU)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <!-- <iframe width="100%" height="auto" src="https://www.youtube.com/embed/FWSuOQ6Q1vE" title="ANAMBRA TALENT SHOW (Season 2)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+              </div>
+              <div class="flex justify-between space-x-2">
+                <div>
+                  <p class="text-xs+">Award Winning Nollywood Actor</p>
+                  <!-- <p class="text-xl font-semibold text-slate-700 dark:text-navy-100">
+                    Award Winning Nollywood Actor
+                  </p> -->
+                </div>
+              </div>
+              <div class="grow">
+                <div class="flex w-full space-x-1">
+                  <div x-tooltip="'Host'" class="h-2 w-4/12 rounded-full bg-primary dark:bg-accent" style="width: 100%;}"></div>
+                  <!-- <div x-tooltip="'Chats Messages'" class="h-2 w-3/12 rounded-full bg-success"></div>
+                  <div x-tooltip="'Emails'" class="h-2 w-5/12 rounded-full bg-info"></div> -->
+                </div>
+              </div>
+
+              
+              <div class="flex justify-between">
+                <div class="flex space-x-2">
+                  <img x-tooltip="'Award Level 1'" class="h-6 w-6" src="/ats/images/awards/award-19.svg" alt="avatar">
+                  <img x-tooltip="'Award Level 2'" class="h-6 w-6" src="/ats/images/awards/award-2.svg" alt="avatar">
+                  <img x-tooltip="'Award Level 3'" class="h-6 w-6" src="/ats/images/awards/award-5.svg" alt="avatar">
+                </div>
+              </div>
+            </div>
+            <div class="card w-72 shrink-0 space-y-9 rounded-xl p-4 sm:px-5">
+              <div class="flex items-center justify-between space-x-2">
+                <div class="flex items-center space-x-3">
+                  <div class="avatar">
+                    <img class="mask is-squircle" src="/ats/images/bob.jpg" alt="image">
+                  </div>
+                  <div>
+                    <p class="font-medium text-slate-700 line-clamp-1 dark:text-navy-100">
+                      Bob-Manuel Odokwu
+                    </p>
+                    <p class="text-xs text-slate-400 dark:text-navy-300">
+                      Host
+                    </p>
+                  </div>
+                </div>
+                <div class="flex space-x-2">
+                  <div class="relative cursor-pointer">
+                    <a href="https://www.instagram.com/bobmanueludokwuofficial/">
+                    <button class="btn h-7 w-7 bg-primary/10 p-0 text-primary hover:bg-primary/20 focus:bg-primary/20 active:bg-primary/25 dark:bg-accent-light/10 dark:text-accent-light dark:hover:bg-accent-light/20 dark:focus:bg-accent-light/20 dark:active:bg-accent-light/25">
+                      <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                      </svg> -->
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#4f46e5"><path d="M16.98 0a6.9 6.9 0 0 1 5.08 1.98A6.94 6.94 0 0 1 24 7.02v9.96c0 2.08-.68 3.87-1.98 5.13A7.14 7.14 0 0 1 16.94 24H7.06a7.06 7.06 0 0 1-5.03-1.89A6.96 6.96 0 0 1 0 16.94V7.02C0 2.8 2.8 0 7.02 0h9.96zm.05 2.23H7.06c-1.45 0-2.7.43-3.53 1.25a4.82 4.82 0 0 0-1.3 3.54v9.92c0 1.5.43 2.7 1.3 3.58a5 5 0 0 0 3.53 1.25h9.88a5 5 0 0 0 3.53-1.25 4.73 4.73 0 0 0 1.4-3.54V7.02a5 5 0 0 0-1.3-3.49 4.82 4.82 0 0 0-3.54-1.3zM12 5.76c3.39 0 6.2 2.8 6.2 6.2a6.2 6.2 0 0 1-12.4 0 6.2 6.2 0 0 1 6.2-6.2zm0 2.22a3.99 3.99 0 0 0-3.97 3.97A3.99 3.99 0 0 0 12 15.92a3.99 3.99 0 0 0 3.97-3.97A3.99 3.99 0 0 0 12 7.98zm6.44-3.77a1.4 1.4 0 1 1 0 2.8 1.4 1.4 0 0 1 0-2.8z"/></svg>
+                    </button>
+                  </a>
+                    <!-- <div class="absolute top-0 right-0 -m-1 flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-primary px-1 text-tiny font-medium leading-none text-white dark:bg-accent">
+                      4
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex justify-between space-x-2">
+                
+                <iframe width="100%" height="auto" src="https://www.youtube.com/embed/9hyFijiJhiU" title="ABOUT ANAMBRA TALENT SHOW BY THE HOST (BOB-MANUEL UDOKWU)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <!-- <iframe width="100%" height="auto" src="https://www.youtube.com/embed/FWSuOQ6Q1vE" title="ANAMBRA TALENT SHOW (Season 2)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+              </div>
+              <div class="flex justify-between space-x-2">
+                <div>
+                  <p class="text-xs+">Award Winning Nollywood Actor</p>
+                  <!-- <p class="text-xl font-semibold text-slate-700 dark:text-navy-100">
+                    Award Winning Nollywood Actor
+                  </p> -->
+                </div>
+              </div>
+              <div class="grow">
+                <div class="flex w-full space-x-1">
+                  <div x-tooltip="'Host'" class="h-2 w-4/12 rounded-full bg-primary dark:bg-accent" style="width: 100%;}"></div>
+                  <!-- <div x-tooltip="'Chats Messages'" class="h-2 w-3/12 rounded-full bg-success"></div>
+                  <div x-tooltip="'Emails'" class="h-2 w-5/12 rounded-full bg-info"></div> -->
+                </div>
+              </div>
+
+              
+              <div class="flex justify-between">
+                <div class="flex space-x-2">
+                  <img x-tooltip="'Award Level 1'" class="h-6 w-6" src="/ats/images/awards/award-19.svg" alt="avatar">
+                  <img x-tooltip="'Award Level 2'" class="h-6 w-6" src="/ats/images/awards/award-2.svg" alt="avatar">
+                  <img x-tooltip="'Award Level 3'" class="h-6 w-6" src="/ats/images/awards/award-5.svg" alt="avatar">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 grid grid-cols-12 gap-4 px-[var(--margin-x)] transition-all duration-[.25s] sm:mt-5 sm:gap-5 lg:mt-6 lg:gap-6">
+          
+          <div class="card col-span-12 pb-4 sm:col-span-6">
+            <div class="my-3 flex items-center justify-between px-4 sm:px-5">
+              <h2 class="font-medium tracking-wide text-slate-700 dark:text-navy-100">
+                Activity Timeline
+              </h2>
+              <div x-data="usePopper({placement:'bottom-end',offset:4})" @click.outside="if(isShowPopper) isShowPopper = false" class="inline-flex">
+                <button x-ref="popperRef" @click="isShowPopper = !isShowPopper" class="btn -mr-1.5 h-8 w-8 rounded-full p-0 hover:bg-slate-300/20 focus:bg-slate-300/20 active:bg-slate-300/25 dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
+                  </svg>
+                </button>
+
+                
+              </div>
+            </div>
+            <ol class="timeline line-space px-4 [--size:1.5rem] sm:px-5">
+              <li class="timeline-item">
+                <div class="timeline-item-point rounded-full border border-current bg-white text-secondary dark:bg-navy-700 dark:text-secondary-light">
+                  <i class="fa fa-user-edit text-tiny"></i>
+                </div>
+                <div class="timeline-item-content flex-1 pl-4 sm:pl-8">
+                  <div class="flex flex-col justify-between pb-2 sm:flex-row sm:pb-0">
+                    <p class="pb-2 font-medium leading-none text-slate-600 dark:text-navy-100 sm:pb-0">
+                      Lecture and Mentorship Series
+                    </p>
+                    <span class="text-xs text-slate-400 dark:text-navy-300">04 Nov 2022</span>
+                  </div>
+                  <p class="py-1">Lecture and Mentorship Series with the state Governor and others.</p>
+                  <div class="avatar mt-2 h-16 w-16">
+                    <img class="mask is-squircle" src="/ats/images/lecture.jpg" alt="avatar">
+                  </div>
+                </div>
+              </li>
+              <li class="timeline-item">
+                <div class="timeline-item-point rounded-full border border-current bg-white text-success dark:bg-navy-700">
+                  <i class="fa fa-leaf text-tiny"></i>
+                </div>
+                <div class="timeline-item-content flex-1 pl-4 sm:pl-8">
+                  <div class="flex flex-col justify-between pb-2 sm:flex-row sm:pb-0">
+                    <p class="pb-2 font-medium leading-none text-slate-600 dark:text-navy-100 sm:pb-0">
+                      Design Completed
+                    </p>
+                    <span class="text-xs text-slate-400 dark:text-navy-300">3 hours ago</span>
+                  </div>
+                  <p class="py-1">
+                    Robert Nolan completed the design of the CRM application
+                  </p>
+                  <div class="pt-2">
+                    <!-- <a href="#" class="tag rounded-full border border-secondary/30 bg-secondary/10 text-secondary hover:bg-secondary/20 focus:bg-secondary/20 active:bg-secondary/25 dark:border-secondary-light/30 dark:bg-secondary-light/10 dark:text-secondary-light dark:hover:bg-secondary-light/20 dark:focus:bg-secondary-light/20 dark:active:bg-secondary-light/25">
+                      One
+                    </a>
+
+                    <a href="#" class="tag rounded-full border border-info/30 bg-info/10 text-info hover:bg-info/20 focus:bg-info/20 active:bg-info/25">
+                      2
+                    </a> -->
+
+                    <a href="#" class="tag rounded-full border border-success/30 bg-success/10 text-success hover:bg-success/20 focus:bg-success/20 active:bg-success/25">
+                      Success
+                    </a>
+                  </div>
+                </div>
+              </li>
+              <li class="timeline-item">
+                <div class="timeline-item-point rounded-full border border-current bg-white text-warning dark:bg-navy-700">
+                  <i class="fa fa-project-diagram text-tiny"></i>
+                </div>
+                <div class="timeline-item-content flex-1 pl-4 sm:pl-8">
+                  <div class="flex flex-col justify-between pb-2 sm:flex-row sm:pb-0">
+                    <p class="pb-2 font-medium leading-none text-slate-600 dark:text-navy-100 sm:pb-0">
+                      Round 1
+                    </p>
+                    <span class="text-xs text-slate-400 dark:text-navy-300">01-11-2022</span>
+                  </div>
+                  <p class="py-1">Round one Eviction</p>
+                  <div>
+                    <p class="text-xs text-slate-400 dark:text-navy-300">
+                      Contenstants:
+                    </p>
+                    <div class="mt-2 flex justify-between">
+                      <div class="flex flex-wrap -space-x-2">
+                        <div class="avatar h-7 w-7 hover:z-10">
+                          <img class="rounded-full ring ring-white dark:ring-navy-700" src="/ats/images/avatar/avatar-16.jpg" alt="avatar">
+                        </div>
+
+                        <div class="avatar h-7 w-7 hover:z-10">
+                          <div class="is-initial rounded-full bg-info text-xs+ uppercase text-white ring ring-white dark:ring-navy-700">
+                            jd
+                          </div>
+                        </div>
+
+                        <div class="avatar h-7 w-7 hover:z-10">
+                          <img class="rounded-full ring ring-white dark:ring-navy-700" src="/ats/images/avatar/avatar-20.jpg" alt="avatar">
+                        </div>
+
+                        <div class="avatar h-7 w-7 hover:z-10">
+                          <img class="rounded-full ring ring-white dark:ring-navy-700" src="/ats/images/avatar/avatar-8.jpg" alt="avatar">
+                        </div>
+
+                        <div class="avatar h-7 w-7 hover:z-10">
+                          <img class="rounded-full ring ring-white dark:ring-navy-700" src="/ats/images/avatar/avatar-5.jpg" alt="avatar">
+                        </div>
+                      </div>
+                      <button class="btn h-7 w-7 rounded-full bg-slate-150 p-0 font-medium text-slate-800 hover:bg-slate-200 focus:bg-slate-200 active:bg-slate-200/80 dark:bg-navy-500 dark:text-navy-50 dark:hover:bg-navy-450 dark:focus:bg-navy-450 dark:active:bg-navy-450/90">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 rotate-45" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li class="timeline-item">
+                <div class="timeline-item-point rounded-full border border-current bg-white text-error dark:bg-navy-700">
+                  <i class="fa fa-history text-tiny"></i>
+                </div>
+                <div class="timeline-item-content flex-1 pl-4 sm:pl-8">
+                  <div class="flex flex-col justify-between pb-2 sm:flex-row sm:pb-0">
+                    <p class="pb-2 font-medium leading-none text-slate-600 dark:text-navy-100 sm:pb-0">
+                      Registration
+                    </p>
+                    <span class="text-xs text-slate-400 dark:text-navy-300">10-2-2022</span>
+                  </div>
+                  <p class="py-1">The weekly report was uploaded</p>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </main>
+    </div>
+    <!-- 
+        This is a place for Alpine.js Teleport feature 
+        @see https://alpinejs.dev/directives/teleport
+      -->
+    <div id="x-teleport-target"></div>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => Alpine.start());
+    </script>
+  </body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta tags  -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+
+    <title>Anambra Talent Show</title>
+    <link rel="icon" type="image/png" href="/ats/images/favicon.png" />
+
+    <!-- CSS Assets -->
+    <link rel="stylesheet" href="/ats/css/app.css" />
+
+    <!-- Javascript Assets -->
+    <script src="/ats/js/app.js" defer=""></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link
+      href="css2?family=Inter:wght@400;500;600;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body x-data="" class="is-header-blur" x-bind="$store.global.documentBody">
+    <!-- App preloader-->
+    <div
+      class="app-preloader fixed z-50 grid h-full w-full place-content-center bg-slate-50 dark:bg-navy-900"
+    >
+      <div class="app-preloader-inner relative inline-block h-48 w-48"></div>
+    </div>
+
+    <!-- Page Wrapper -->
+    <div
+      id="root"
+      class="min-h-100vh flex grow bg-slate-50 dark:bg-navy-900"
+      x-cloak=""
+    >
+      <!-- Sidebar -->
+      <div class="sidebar print:hidden">
+        <!-- Main Sidebar -->
+
+        <!-- Sidebar Panel -->
+        <div class="sidebar-panel">
+          <div
+            class="flex h-full grow flex-col bg-white pl-[var(--main-sidebar-width)] dark:bg-navy-750"
+          >
+            <!-- Sidebar Panel Header -->
+            <div
+              class="flex h-18 w-full items-center justify-between pl-4 pr-1"
+            >
+              <p
+                class="text-base tracking-wider text-slate-800 dark:text-navy-100"
+              ></p>
+              <button
+                @click="$store.global.isSidebarExpanded = false"
+                class="btn h-7 w-7 rounded-full p-0 text-primary hover:bg-slate-300/20 focus:bg-slate-300/20 active:bg-slate-300/25 dark:text-accent-light/80 dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25 xl:hidden"
+              >
+                <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg> -->
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  stroke="currentColor"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#a3adc2"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="15" y1="9" x2="9" y2="15"></line>
+                  <line x1="9" y1="9" x2="15" y2="15"></line>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Sidebar Panel Body -->
+          </div>
+        </div>
+      </div>
+
+      <!-- App Header Wrapper-->
+      <nav class="header print:hidden">
+        <!-- App Header  -->
+        <div
+          class="header-container relative flex w-full bg-white dark:bg-navy-750 print:hidden"
+        >
+          <!-- Header Items -->
+          <div class="flex w-full items-center justify-between">
+            <!-- Left: Sidebar Toggle Button -->
+            <div class="h-7 w-7">
+              <a href="index.html">
+                <img src="/ats/images/logo.png" alt="" />
+              </a>
+            </div>
+
+            <!-- Right: Header buttons -->
+            <div class="-mr-1.5 flex items-center space-x-2">
+              <!-- Dark Mode Toggle -->
+              <button
+                @click="$store.global.isDarkModeEnabled = !$store.global.isDarkModeEnabled"
+                class="btn h-8 w-8 rounded-full p-0 hover:bg-slate-300/20 focus:bg-slate-300/20 active:bg-slate-300/25 dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25"
+              >
+                <svg
+                  x-show="$store.global.isDarkModeEnabled"
+                  x-transition:enter="transition-transform duration-200 ease-out absolute origin-top"
+                  x-transition:enter-start="scale-75"
+                  x-transition:enter-end="scale-100 static"
+                  class="h-6 w-6 text-amber-400"
+                  fill="currentColor"
+                  viewbox="0 0 24 24"
+                >
+                  <path
+                    d="M11.75 3.412a.818.818 0 01-.07.917 6.332 6.332 0 00-1.4 3.971c0 3.564 2.98 6.494 6.706 6.494a6.86 6.86 0 002.856-.617.818.818 0 011.1 1.047C19.593 18.614 16.218 21 12.283 21 7.18 21 3 16.973 3 11.956c0-4.563 3.46-8.31 7.925-8.948a.818.818 0 01.826.404z"
+                  ></path>
+                </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  x-show="!$store.global.isDarkModeEnabled"
+                  x-transition:enter="transition-transform duration-200 ease-out absolute origin-top"
+                  x-transition:enter-start="scale-75"
+                  x-transition:enter-end="scale-100 static"
+                  class="h-6 w-6 text-amber-400"
+                  viewbox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </button>
+
+              <!-- Notification-->
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Main Content Wrapper -->
+      <main
+        class="main-content w-full place-items-center px-[var(--margin-x)] pb-6"
+      >
+        <div class="py-5 text-center lg:py-6">
+          <p class="text-sm uppercase">Welcome to the voting portal!</p>
+          <h3
+            class="mt-1 text-xl font-semibold text-slate-600 dark:text-navy-100"
+          >
+            ANAMBRA TALENT SHOW
+          </h3>
+          <h5
+            class="mt-1 text-xl font-normal text-slate-600 dark:text-navy-100"
+          >
+            SEASON II
+          </h5>
+        </div>
+        <div
+          class="grid max-w-4xl grid-cols-1 gap-4 sm:grid-cols-5 sm:gap-5 lg:gap-6"
+        >
+          <div class="rounded-lg"></div>
+          <div
+            class="rounded-lg bg-gradient-to-br from-amber-400 to-orange-600 py-6 px-5 text-center"
+          >
+            <h4 class="text-xl font-semibold text-white">
+              Vote for your favourite contestant
+            </h4>
+            <p class="pt-2 text-white">
+              Vote for your favourite contestant, be certain that all your votes
+              count.
+            </p>
+            <div class="px-5 py-8">
+              <img
+                class="w-full"
+                style="border-radius: 10px"
+                src="/ats/images/ats.jpg"
+                alt="image"
+              />
+            </div>
+            <a href="/register">
+              <button
+                class="btn w-full mt-8 bg-primary font-medium text-white shadow-lg shadow-primary/50 hover:bg-primary-focus focus:bg-primary-focus active:bg-primary-focus/90 dark:bg-accent dark:shadow-accent/50 dark:hover:bg-accent-focus dark:focus:bg-accent-focus dark:active:bg-accent/90"
+              >
+                Create an account
+              </button>
+            </a>
+            <a href="/login">
+              <button
+                class="btn mt-4 w-full border border-white/10 bg-white/20 text-white hover:bg-white/30 focus:bg-white/30"
+              >
+                I already have an accouunt
+              </button>
+            </a>
+          </div>
+
+          <div class="rounded-lg"></div>
+        </div>
+        <div
+          class="my-5 flex justify-center text-xs text-slate-400 dark:text-navy-300"
+        >
+          <a href="#">Privacy Notice</a>
+          <div class="mx-3 my-1 w-px bg-slate-200 dark:bg-navy-500"></div>
+          <a href="#">Term of service</a>
+        </div>
+      </main>
+    </div>
+    <!-- 
+        This is a place for Alpine.js Teleport feature 
+        @see https://alpinejs.dev/directives/teleport
+      -->
+    <div id="x-teleport-target"></div>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => Alpine.start());
+    </script>
+  </body>
+</html>

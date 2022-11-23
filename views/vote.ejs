@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta tags  -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+    <title>Anambra Talent Show</title>
+    <link rel="icon" type="image/png" href="/ats/images/favicon.png">
+
+    <!-- CSS Assets -->
+    <link rel="stylesheet" href="/ats/css/app.css">
+
+    <!-- Javascript Assets -->
+    <script src="/ats/js/app.js" defer=""></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="css2?family=Inter:wght@400;500;600;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+  </head>
+
+  <body x-data="" class="is-header-blur" x-bind="$store.global.documentBody">
+    <!-- App preloader-->
+    <div class="app-preloader fixed z-50 grid h-full w-full place-content-center bg-slate-50 dark:bg-navy-900">
+      <div class="app-preloader-inner relative inline-block h-48 w-48"></div>
+    </div>
+
+    <!-- Page Wrapper -->
+    <div id="root" class="min-h-100vh flex grow bg-slate-50 dark:bg-navy-900" x-cloak="">
+      <!-- Sidebar -->
+      <%- include("partials/sidebar") %>
+
+      <!-- App Header Wrapper-->
+      <nav class="header print:hidden">
+        <!-- App Header  -->
+        <div class="header-container relative flex w-full bg-white dark:bg-navy-750 print:hidden">
+          <!-- Header Items -->
+          <div class="flex w-full items-center justify-between">
+            <!-- Left: Sidebar Toggle Button -->
+            <div class="h-7 w-7">
+              <button class="menu-toggle ml-0.5 flex h-7 w-7 flex-col justify-center space-y-1.5 text-primary outline-none focus:outline-none dark:text-accent-light/80" :class="$store.global.isSidebarExpanded && 'active'" @click="$store.global.isSidebarExpanded = !$store.global.isSidebarExpanded">
+                <span></span>
+                <span></span>
+                <span></span>
+              </button>
+            </div>
+
+            <!-- Right: Header buttons -->
+            <div class="-mr-1.5 flex items-center space-x-2">
+
+              <!-- Dark Mode Toggle -->
+              <button @click="$store.global.isDarkModeEnabled = !$store.global.isDarkModeEnabled" class="btn h-8 w-8 rounded-full p-0 hover:bg-slate-300/20 focus:bg-slate-300/20 active:bg-slate-300/25 dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25">
+                <svg x-show="$store.global.isDarkModeEnabled" x-transition:enter="transition-transform duration-200 ease-out absolute origin-top" x-transition:enter-start="scale-75" x-transition:enter-end="scale-100 static" class="h-6 w-6 text-amber-400" fill="currentColor" viewbox="0 0 24 24">
+                  <path d="M11.75 3.412a.818.818 0 01-.07.917 6.332 6.332 0 00-1.4 3.971c0 3.564 2.98 6.494 6.706 6.494a6.86 6.86 0 002.856-.617.818.818 0 011.1 1.047C19.593 18.614 16.218 21 12.283 21 7.18 21 3 16.973 3 11.956c0-4.563 3.46-8.31 7.925-8.948a.818.818 0 01.826.404z"></path>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" x-show="!$store.global.isDarkModeEnabled" x-transition:enter="transition-transform duration-200 ease-out absolute origin-top" x-transition:enter-start="scale-75" x-transition:enter-end="scale-100 static" class="h-6 w-6 text-amber-400" viewbox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                </svg>
+              </button>
+
+              <!-- Notification-->
+              <div x-effect="if($store.global.isSearchbarActive) isShowPopper = false" x-data="usePopper({placement:'bottom-end',offset:12})" @click.outside="if(isShowPopper) isShowPopper = false" class="flex">
+                <button @click="isShowPopper = !isShowPopper" x-ref="popperRef" class="btn relative h-8 w-8 rounded-full p-0 hover:bg-slate-300/20 focus:bg-slate-300/20 active:bg-slate-300/25 dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-500 dark:text-navy-100" stroke="currentColor" fill="none" viewbox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.375 17.556h-6.75m6.75 0H21l-1.58-1.562a2.254 2.254 0 01-.67-1.596v-3.51a6.612 6.612 0 00-1.238-3.85 6.744 6.744 0 00-3.262-2.437v-.379c0-.59-.237-1.154-.659-1.571A2.265 2.265 0 0012 2c-.597 0-1.169.234-1.591.65a2.208 2.208 0 00-.659 1.572v.38c-2.621.915-4.5 3.385-4.5 6.287v3.51c0 .598-.24 1.172-.67 1.595L3 17.556h12.375zm0 0v1.11c0 .885-.356 1.733-.989 2.358A3.397 3.397 0 0112 22a3.397 3.397 0 01-2.386-.976 3.313 3.313 0 01-.989-2.357v-1.111h6.75z"></path>
+                  </svg>
+
+                  <span class="absolute -top-px -right-px flex h-3 w-3 items-center justify-center">
+                    <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-secondary opacity-80"></span>
+                    <span class="inline-flex h-2 w-2 rounded-full bg-secondary"></span>
+                  </span>
+                </button>
+                <div :class="isShowPopper && 'show'" class="popper-root" x-ref="popperRoot">
+                  <div x-data="{activeTab:'tabAll'}" class="popper-box mx-4 mt-1 flex max-h-[calc(100vh-6rem)] w-[calc(100vw-2rem)] flex-col rounded-lg border border-slate-150 bg-white shadow-soft dark:border-navy-800 dark:bg-navy-700 dark:shadow-soft-dark sm:m-0 sm:w-80">
+                    <div class="rounded-t-lg bg-slate-100 text-slate-600 dark:bg-navy-800 dark:text-navy-200">
+                      <div class="flex items-center justify-between px-4 pt-2">
+                        <div class="flex items-center space-x-2">
+                          <h3 class="font-medium text-slate-700 dark:text-navy-100">
+                            Notifications
+                          </h3>
+                          <div class="badge h-5 rounded-full bg-primary/10 px-1.5 text-primary dark:bg-accent-light/15 dark:text-accent-light">
+                            1
+                          </div>
+                        </div>
+
+                        <button class="btn -mr-1.5 h-7 w-7 rounded-full p-0 hover:bg-slate-300/20 focus:bg-slate-300/20 active:bg-slate-300/25 dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                          </svg>
+                        </button>
+                      </div>
+
+                      <div class="is-scrollbar-hidden flex shrink-0 overflow-x-auto px-3">
+                        <button @click="activeTab = 'tabAll'" :class="activeTab === 'tabAll' ? 'border-primary dark:border-accent text-primary dark:text-accent-light' : 'border-transparent hover:text-slate-800 focus:text-slate-800 dark:hover:text-navy-100 dark:focus:text-navy-100'" class="btn shrink-0 rounded-none border-b-2 px-3.5 py-2.5">
+                          <span>All</span>
+
+                      </div>
+                    </div>
+
+                    <div class="tab-content flex flex-col overflow-hidden">
+                      <div x-show="activeTab === 'tabAll'" x-transition:enter="transition-all duration-300 easy-in-out" x-transition:enter-start="opacity-0 [transform:translate3d(1rem,0,0)]" x-transition:enter-end="opacity-100 [transform:translate3d(0,0,0)]" class="is-scrollbar-hidden space-y-4 overflow-y-auto px-4 py-4">
+                        <!-- <div class="mt-8 pb-8 text-center">
+                          <img class="mx-auto w-36" src="/ats/images/illustrations/empty-girl-box.svg" alt="image">
+                          <div class="mt-5">
+                            <p class="text-base font-semibold text-slate-700 dark:text-navy-100">
+                              No any logs
+                            </p>
+                            <p class="text-slate-400 dark:text-navy-300">
+                              There are no unread logs yet
+                            </p>
+                          </div>
+                        </div> -->
+                        <div class="flex items-center space-x-3">
+                          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary/10 dark:bg-secondary-light/15">
+                            <i class="fa fa-thumbs-up text-secondary dark:text-secondary-light" aria-hidden="true"></i>
+                          </div>
+                          <div>
+                            <p class="font-medium text-slate-600 dark:text-navy-100">
+                              You voted for Jonathan
+                            </p>
+                            <div class="mt-1 text-xs text-slate-400 line-clamp-1 dark:text-navy-300">
+                              +500
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+
+      <!-- Main Content Wrapper -->
+      <main class="main-content w-full px-[var(--margin-x)] pb-8">
+        <div class="mt-5 space-y-4">
+
+          <% if (message) { %>
+              <% if(message.success == true){ %>
+                <div class="alert flex rounded-lg bg-success px-4 py-4 text-white sm:px-5">
+                  Voting successful
+                </div>
+              <% } %> 
+
+              <% if (message.success == false) { %>
+                <div class="alert flex rounded-lg bg-error px-4 py-4 text-white sm:px-5">
+                  There was an error. Try again.
+                </div>
+              <% } %> 
+           
+          <% } %>
+
+          </div>
+        <div class="flex items-center space-x-4 py-5 lg:py-6">
+          <h2 class="text-xl font-medium text-slate-800 dark:text-navy-50 lg:text-2xl">
+            Vote for <%= contestant.name %> 
+          </h2>
+          <div class="hidden h-full py-1 sm:flex">
+            <div class="h-full w-px bg-slate-300 dark:bg-navy-600"></div>
+          </div>
+          
+        </div>
+        <div class="grid grid-cols-1 gap-4 sm:gap-5 lg:gap-6">
+          <!-- Input Validation -->
+          <div class="card px-4 pb-4 sm:px-5">           
+
+            <!-- <div class="card -mt-12 px-4 pb-5 sm:px-5"> -->
+                <div class="mt-1">
+                  <div class="flex items-center justify-between py-3">
+                    <h2 class="font-medium tracking-wide text-slate-700 dark:text-navy-100">
+                        1 Vote = ₦10
+                    </h2>
+                    
+                  </div>
+                  <img class="rounded-full my-1" width="150px" src="<%= contestant.images[0].url %> " alt="avatar">
+                  <div class="flex space-x-2">
+                    <div class="avatar h-8 w-8 hover:z-10">
+                        
+                    </div>
+  
+                    
+                  </div>
+  
+                  <div class="mt-2 flex items-center justify-between">
+                    <p class="text-xs+">Fill the form below to vote your favourite contestant.(click on outside of the input after selecting number of votes.)
+                    </p>
+  
+                    
+                  </div>
+                <form action="/transaction/1" method="post">
+                  <div class="mt-2 space-y-4">
+                    <label class="block">
+                      <span class="text-xs+">No of votes</span>
+                      <input id="vote-number" class="form-input mt-1.5 h-9 w-full rounded-lg border border-slate-300 bg-transparent px-3 py-2 placeholder:text-slate-400/70 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:hover:border-navy-400 dark:focus:border-accent" placeholder="No of votes" name="amount" type="number">
+                    </label>
+                    
+                  </div>
+                  <div class="mt-5 flex justify-between text-slate-400 dark:text-navy-300">
+                    <p class="text-xs+">Number of votes:</p>
+                    <p>10</p>
+                  </div>
+                  <div class="mt-2 flex justify-between">
+                    <p>Amount to pay:</p>
+                    <p  class="font-medium text-slate-700 dark:text-navy-100">
+                        ₦ <span id="price">0</span>
+                    </p>
+                  </div>
+  
+                  <button type="submit" name="submit" class="btn mt-5 h-10 w-full bg-primary font-medium text-white hover:bg-primary-focus focus:bg-primary-focus active:bg-primary-focus/90 dark:bg-accent dark:hover:bg-accent-focus dark:focus:bg-accent-focus dark:active:bg-accent/90">
+                    Pay for vote
+                  </button>
+                </form>
+                </div>
+              <!-- </div> -->
+            
+          </div>
+        </div>
+      </main>
+    </div>
+    <!-- 
+        This is a place for Alpine.js Teleport feature 
+        @see https://alpinejs.dev/directives/teleport
+      -->
+    <div id="x-teleport-target"></div>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => Alpine.start());
+      document.querySelector("#vote-number").addEventListener("change", (e)=>{
+        console.log(e.target.value)
+        document.querySelector("#price").innerHTML = e.target.value * 10
+      })
+    </script>
+  </body>
+</html>
