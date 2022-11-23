@@ -122,9 +122,7 @@ exports.makePayment = async (req, res) => {
 
 exports.verifyPayment = async (req, res) => {
 	// https://anambratalentshow.com/transaction/verify?trxref=ats-ajBx9MnC0tW1HBRcqNzU&reference=ats-ajBx9MnC0tW1HBRcqNzU	
-	const { trxref, reference, status } = req.query;
-	console.log(tx_ref);
-	console.log(status);
+	const { trxref, reference } = req.query;
 
 	console.log(req.query);
 
